@@ -1,0 +1,88 @@
+﻿:root {
+    --primary: #00d2ff;
+    --secondary: #3a7bd5;
+    --bg: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+}
+
+.main-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+}
+
+button {
+    background: var(--primary);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+    }
+
+.temp-container {
+    font-size: 5rem;
+    font-weight: 800;
+    margin: 20px 0;
+    background: linear-gradient(to bottom, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.description-box {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    margin-bottom: 30px;
+}
+
+.stats-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
