@@ -1,5 +1,6 @@
 const apiKey = "43ec5faff1cc75c6c7db7c79d7e0a98b";
 
+// --- ENGINE 1: Fetch and Render Weather Data ---
 async function fetchWeather() {
     const cityInputEl = document.getElementById("city-input");
     const weatherInfo = document.getElementById("weather-info");
@@ -22,7 +23,7 @@ async function fetchWeather() {
 
         const data = await response.json();
         
-        // Render data to screen
+        // Render server data onto the screen elements
         document.getElementById("city-display").innerText = data.name;
         document.getElementById("temp-display").innerText = Math.round(data.main.temp);
         document.getElementById("desc-display").innerText = data.weather[0].description;
@@ -30,17 +31,19 @@ async function fetchWeather() {
         document.getElementById("wind-display").innerText = `${data.wind.speed} km/h`;
         document.getElementById("date-display").innerText = new Date().toLocaleDateString();
 
-        // Reveal the stats dashboard card
+        // Toggle visibility states
         weatherInfo.classList.remove("hidden");
         welcomeMsg.classList.add("hidden");
 
     } catch (error) {
         alert(error.message);
     }
-    // Listen for the "Enter" key press inside the input field
+}
+
+// --- ENGINE 2: Accessibility Keyboard Event Listener ---
+// This listens for your keyboard inside the input field and triggers search on 'Enter'
 document.getElementById("city-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         fetchWeather();
     }
 });
-}
