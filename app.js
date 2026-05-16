@@ -37,4 +37,10 @@ async function fetchWeather() {
     } catch (error) {
         alert(error.message);
     }
+    // Listen for the "Enter" key press inside the input field
+document.getElementById("city-input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        fetchWeather();
+    }
+});
 }
