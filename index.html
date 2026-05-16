@@ -1,28 +1,47 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Pulse | Weather & News</title>
+    <title>Global Pulse | Weather Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="search-container">
-        <input type="text" id="city-input" placeholder="Search City (e.g. Tokyo)...">
-        <button onclick="getWeather()">Search</button>
-    </div>
 
-    <main id="weather-display" class="hidden">
-        <div class="weather-card">
-            <h1 id="city-name">City Name</h1>
-            <p id="description">Weather Description</p>
-            <div class="temp-big" id="temp">--°C</div>
-            <div class="details">
-                <span>Humidity: <b id="humidity">--%</b></span>
-                <span>Wind: <b id="wind">-- km/h</b></span>
+    <div class="main-card">
+        <div class="search-box">
+            <input type="text" id="city-input" placeholder="Enter City Name...">
+            <button onclick="fetchWeather()">Search</button>
+        </div>
+
+        <div id="weather-info" class="hidden">
+            <h1 id="city-display">Tokyo</h1>
+            <p id="date-display"></p>
+            
+            <div class="temp-container">
+                <span id="temp-display">--</span>°C
+            </div>
+
+            <div class="description-box">
+                <p id="desc-display">Clear Skies</p>
+            </div>
+
+            <div class="stats-footer">
+                <div class="stat">
+                    <small>Humidity</small>
+                    <p id="humidity-display">--%</p>
+                </div>
+                <div class="stat">
+                    <small>Wind Speed</small>
+                    <p id="wind-display">-- km/h</p>
+                </div>
             </div>
         </div>
-    </main>
+
+        <div id="welcome-msg">
+            <p>Enter a city to check the Global Pulse</p>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
