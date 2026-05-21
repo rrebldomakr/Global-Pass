@@ -22,6 +22,15 @@
   padding: 0;
 }
 
+/* Ensure the base page elements allow absolute transparency */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #070a13; /* Deep fallback base */
+}
+
 body {
   min-height: 100vh;
   display: flex;
@@ -32,10 +41,10 @@ body {
   overflow-x: hidden;
   position: relative;
   
-  /* Upgraded high-contrast luxury ambient gradient */
-  background: linear-gradient(135deg, #070a13, #1e1b4b, #3b0764, #030712);
+  /* Upgraded high-visibility neon ambiance gradient */
+  background: linear-gradient(135deg, #090d1a, #1e1b4b, #4c1d95, #0f172a);
   background-size: 400% 400%;
-  animation: ambientFluidMotion 16s ease infinite;
+  animation: ambientFluidMotion 12s ease infinite;
 }
 
 /* ==========================================================================
@@ -49,33 +58,25 @@ body {
   z-index: 10;
 }
 
+/* Force the weather-card to be deeply translucent */
 .weather-card {
   width: 100%;
-  /* CRITICAL: Heavy transparency so the background colors bleed through */
-  background: rgba(255, 255, 255, 0.03); 
+  max-width: 440px;
   
-  /* CRITICAL: High-contrast dual borders simulating glass thickness */
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
-  border-left: 1px solid rgba(255, 255, 255, 0.2) ;
+  /* CRITICAL CHANGE: Shift background opacity from 0.35 down to 0.15 */
+  background: rgba(15, 23, 42, 0.15) !important; 
   
-  /* High-fidelity structural drop shadows */
+  /* High contrast neon glow profiles */
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+  
+  backdrop-filter: blur(30px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+  
   box-shadow: 
-    0 24px 60px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 0 40px rgba(99, 102, 241, 0.05);
-    
-  /* The core frosted blur engine */
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  
-  border-radius: var(--card-radius);
-  padding: 32px;
-  position: relative;
-  z-index: 5;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+    0 30px 70px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
-
 .weather-card:hover {
   transform: translateY(-4px) rotateX(1deg);
   box-shadow: 
