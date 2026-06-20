@@ -2,7 +2,7 @@
    1. DESIGN TOKENS & ROOT ARCHITECTURE
    ========================================================================== */
 :root {
-  --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
+  --bg-gradient: transparent;
   --glass-bg: rgba(15, 23, 42, 0.35);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-glow: rgba(255, 255, 255, 0.03);
@@ -22,13 +22,12 @@
   padding: 0;
 }
 
-/* Ensure the base page elements allow absolute transparency */
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #070a13; /* Deep fallback base */
+  background-color: #070a13; /* Space background */
 }
 
 body {
@@ -40,11 +39,23 @@ body {
   color: var(--text-primary);
   overflow-x: hidden;
   position: relative;
-  
-  /* Upgraded high-visibility neon ambiance gradient */
-  background: linear-gradient(135deg, #090d1a, #1e1b4b, #4c1d95, #0f172a);
-  background-size: 400% 400%;
-  animation: ambientFluidMotion 12s ease infinite;
+}
+
+/* ==========================================================================
+   THE 3D GLOBE CANVAS LAYER
+   ========================================================================== */
+.globe-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  cursor: grab;
+}
+
+.globe-background:active {
+  cursor: grabbing;
 }
 
 /* ==========================================================================
@@ -56,27 +67,31 @@ body {
   padding: 24px;
   perspective: 1000px;
   z-index: 10;
+  /* Allows mouse events to pass through the empty space to the globe */
+  pointer-events: none; 
 }
 
-/* Force the weather-card to be deeply translucent */
 .weather-card {
   width: 100%;
   max-width: 440px;
+  /* Re-enable pointer events just for the glass card */
+  pointer-events: auto;
   
-  /* CRITICAL CHANGE: Shift background opacity from 0.35 down to 0.15 */
   background: rgba(15, 23, 42, 0.15) !important; 
-  
-  /* High contrast neon glow profiles */
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
   
-  backdrop-filter: blur(30px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+  backdrop-filter: blur(20px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
   
   box-shadow: 
     0 30px 70px rgba(0, 0, 0, 0.6),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  border-radius: var(--card-radius);
+  padding: 30px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
+
 .weather-card:hover {
   transform: translateY(-4px) rotateX(1deg);
   box-shadow: 
@@ -220,7 +235,6 @@ body {
 }
 
 .meta-item {
-  /* Slightly darker frosted tinting for layer separation */
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -242,10 +256,6 @@ body {
   transform: translateY(-2px);
 }
 
-.meta-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
 .wind-gauge-box {
   flex-direction: row;
   justify-content: space-between;
@@ -264,7 +274,6 @@ body {
   font-weight: 600;
 }
 
-/* Dynamic Rotational Vector Dial */
 .compass-ring {
   width: 42px;
   height: 42px;
@@ -292,17 +301,6 @@ body {
 /* ==========================================================================
    6. MOTION ENGINE & WEATHER STATE CODES
    ========================================================================== */
-@keyframes ambientFluidMotion {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes cardEntranceSlide {
-  from { opacity: 0; transform: translateY(40px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 @keyframes dashboardDataPop {
   from { opacity: 0; transform: scale(0.95) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
@@ -318,48 +316,27 @@ body {
   50% { opacity: 1; box-shadow: 0 0 14px rgba(239, 68, 68, 0.25); }
 }
 
-/* Meteorological Context Injectors */
-body.weather-clear {
-  --bg-gradient: linear-gradient(135deg, #0f172a, #78350f, #9a3412);
-  --glass-bg: rgba(30, 41, 59, 0.4);
+/* Meteorological Context Injectors (Glows behind the card) */
+body.weather-clear .weather-card {
+  box-shadow: 0 30px 70px rgba(245, 158, 11, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1);
   --accent-color: #f59e0b;
-  --glass-glow: rgba(245, 158, 11, 0.06);
 }
 
-body.weather-clouds {
-  --bg-gradient: linear-gradient(135deg, #0f172a, #334155, #1e293b);
-  --glass-bg: rgba(15, 23, 42, 0.45);
+body.weather-clouds .weather-card {
   --accent-color: #38bdf8;
-  --glass-glow: rgba(255, 255, 255, 0.02);
 }
 
-body.weather-rain, body.weather-drizzle {
-  --bg-gradient: linear-gradient(135deg, #020617, #0f172a, #172554);
-  --glass-bg: rgba(2, 6, 23, 0.5);
+body.weather-rain .weather-card, body.weather-drizzle .weather-card {
   --accent-color: #3b82f6;
-  --glass-glow: rgba(59, 130, 246, 0.08);
 }
 
-body.weather-thunderstorm {
-  --bg-gradient: linear-gradient(135deg, #090514, #1e1135, #0f172a);
-  --glass-bg: rgba(9, 5, 20, 0.55);
+body.weather-thunderstorm .weather-card {
   --accent-color: #a855f7;
-  --glass-glow: rgba(168, 85, 247, 0.1);
   animation: globalLightningFlash 6s infinite alternate;
 }
 
-body.weather-snow {
-  --bg-gradient: linear-gradient(135deg, #0f172a, #1e3a8a, #38bdf8);
-  --glass-bg: rgba(15, 23, 42, 0.3);
+body.weather-snow .weather-card {
   --accent-color: #0ea5e9;
-  --glass-glow: rgba(255, 255, 255, 0.15);
-}
-
-body.weather-mist, body.weather-fog, body.weather-haze {
-  --bg-gradient: linear-gradient(135deg, #1e293b, #475569, #334155);
-  --glass-bg: rgba(30, 41, 59, 0.4);
-  --accent-color: #cbd5e1;
-  --glass-glow: rgba(255, 255, 255, 0.05);
 }
 
 @keyframes globalLightningFlash {
@@ -376,7 +353,7 @@ body.weather-mist, body.weather-fog, body.weather-haze {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 1; /* Sits above globe, below UI */
   pointer-events: none;
   overflow: hidden;
 }
