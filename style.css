@@ -27,17 +27,14 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #070a13; /* Space background */
+  background-color: #070a13; 
 }
 
 body {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-family: system-ui, -apple-system, sans-serif;
   color: var(--text-primary);
-  overflow-x: hidden;
+  overflow: hidden; /* Locks the viewport so the 3D globe doesn't cause scrollbars */
   position: relative;
 }
 
@@ -62,6 +59,12 @@ body {
    2. APPLICATION LAYOUT CONTAINER
    ========================================================================== */
 .app-container {
+  /* HARD-PINNED ABSOLUTE CENTERING */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
   width: 100%;
   max-width: 480px;
   padding: 24px;
@@ -76,6 +79,7 @@ body {
   max-width: 440px;
   /* Re-enable pointer events just for the glass card */
   pointer-events: auto;
+  margin: 0 auto;
   
   background: rgba(15, 23, 42, 0.15) !important; 
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
