@@ -1,15 +1,16 @@
-# 🌍 Real-Time Weather Dashboard
+# 🌍 WeatherAtmos
 
-An asynchronous web application that interfaces with third-party server environments to deliver real-time meteorological metrics globally. Built to demonstrate proficiency in API integration, error boundaries, and dynamic UI state rendering.
+An asynchronous web application that interfaces with third-party server environments to deliver real-time meteorological metrics globally. Built to demonstrate proficiency in API integration, client-side rendering optimization, and dynamic UI state rendering.
 
-🚀 **[Live Demo Link](https://rrebldomakr.github.io/Global-Pass/)**
+🚀 **[Live Demo Link](https://rrebldomakr.github.io/WeatherAtmos/)**
 
 ---
 
 ## 🛠️ Tech Stack & Engineering Concepts
 - **JavaScript (ES6 Async/Await):** Utilizes asynchronous programming architecture to handle live network requests without halting main-thread execution.
-- **Fetch API:** Handles connection streams, payload transfers, and JSON parsing from remote servers.
-- **CSS3 Layout Engine:** Implements a frosted glassmorphism visual layout with dynamic visual state scaling.
+- **WebGL & Three.js:** Hardware-accelerated 3D rendering for the interactive data-visualization canvas.
+- **Fetch API & Memory Caching:** Handles connection streams, payload transfers, and implements a custom TTL cache to optimize latency.
+- **CSS3 Layout Engine:** Implements a frosted glassmorphism visual layout decoupled from the 3D canvas flow.
 
 ---
 
@@ -17,17 +18,17 @@ An asynchronous web application that interfaces with third-party server environm
 
 During development, the application encountered two critical structural roadblocks that required deep-dive debugging to resolve:
 
-### 1. The Dynamic Function Context Disconnect (Mismatched Identifiers)
-* **The Problem:** The user interface was failing to initiate network requests upon button interactions. The console logged a silent failure indicating the target execution block could not be located by the browser rendering engine.
-* **The Resolution:** Conducted a comprehensive code review tracking the document object model triggers against the underlying script logic. Identified an architectural naming mismatch where the HTML DOM anchor was pointing to an older signature schema (`getWeather`), while the actual operational model script was compiled under a modernized signature framework (`fetchWeather`). Realigned all element identifiers to establish clean runtime execution hooks.
+### 1. Decoupling the UI from the WebGL Render Loop
+* **The Problem:** Integrating a heavy 3D canvas (`Globe.gl`) into the DOM natively disrupted the CSS Flexbox alignment, which caused the rendering engine to occasionally shove the primary UI components entirely off-screen.
+* **The Resolution:** Conducted a structural refactor to strip the standard document flow rules, engineering a strictly absolute-positioned layout. The interactive UI card was hard-pinned to the viewport center, allowing the WebGL canvas to execute its rotation loops in the background without triggering expensive DOM reflows for the interface.
 
-### 2. Aggressive Browser Cache Serialization
-* **The Problem:** After refactoring the component IDs and structure files, the live application deployment continued to serve a completely broken, unstyled legacy document layout. Updates pushed to the host repository were seemingly being ignored.
-* **The Resolution:** Isolated the behavior to local client-side persistence rules. The browser engine was caching the initial non-functional builds to optimize asset delivery speeds, refusing to fetch the corrected structural updates. Resolved this by initiating a network-forced hard refresh lifecycle routine (`Ctrl + F5`), forcing the rendering context to dump stale serialized memory layers and build the interface with the true source code state.
+### 2. Overlapping API Streams & Network Spam
+* **The Problem:** The initial search functionality triggered dozens of overlapping API calls upon rapid keystrokes. This risked immediate rate-limiting from the OpenWeatherMap servers and caused race conditions where older data payloads could resolve after newer ones.
+* **The Resolution:** Engineered a three-tier optimization pipeline. First, implemented a 450ms debounce delay on inputs. Second, built an in-memory `Map` cache that stores valid JSON payloads for 5 minutes, allowing subsequent identical queries to bypass the network entirely. Finally, utilized `AbortController` to instantly terminate "in-flight" fetch requests if the user alters their search parameters before the original promise resolves.
 
 ---
 
 ## ⚙️ Local Deployment Directions
 1. Clone the repository framework locally:
    ```bash
-   git clone [https://github.com/rrebldomakr/Global-Pass.git](https://github.com/rrebldomakr/Global-Pass.git)
+   git clone [https://github.com/rrebldomakr/WeatherAtmos.git](https://github.com/rrebldomakr/WeatherAtmos.git)
